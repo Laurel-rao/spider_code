@@ -1,0 +1,19 @@
+{
+  "data": {
+    "flag": "1",
+    "map": {
+      "BJQ": "深圳东",
+      "IOQ": "深圳北",
+      "NCG": "南昌",
+      "NXG": "南昌西",
+      "OSQ": "深圳西",
+      "SZQ": "深圳"
+    },
+    "result": [
+      "FjC1VeLGBARBKdfZmvAxmxWSIwd9Y6n%2F9AHFu5vwroSWpvFq%2FH4mHhkFk1o2FsZ%2FYRYVY354i%2FKq%0AIDGottxdGzVepiEM9c%2FmEz8gME%2Bs12%2BCACTBCRAaRxlCg5%2FKEFUGcoc3LrefHgRDaEKAUiZJIBNR%0AZRuF4PdXZZGBerw174vPAab5inTG69PvplZzBTlxm%2FIBeqy7YyDis9Aqt58ChflBVSeKnfTA%2FQBH%0ALul3%2BLIc1p9Je4bwhm6n4mthu7W9|预订|5u0000G63709|G637|NXG|IOQ|NXG|IOQ|07:38|13:12|05:34|Y|Q%2Bhuc%2Fngj1FDfHzLtIR%2BnOzHa2n380jCU0Do1FWMcF21eHwS|20181120|3|G1|01|13|1|0|||||||||||有|有|15||O0M090|OM9|0",
+    ]
+  },
+  "httpstatus": 200,
+  "messages": "",
+  "status": true
+}

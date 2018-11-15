@@ -1,0 +1,26 @@
+{
+  "data": {
+    "flag": "1",
+    "map": {
+      "BJQ": "深圳东",
+      "IOQ": "深圳北",
+      "NCG": "南昌",
+      "NXG": "南昌西",
+      "OSQ": "深圳西",
+      "SZQ": "深圳"
+    },
+    "result": [
+      "|预订|57000K10190O|K1019|JJG|BJQ|NXG|BJQ|17:16|06:03|12:47|Y|hBeGGaXHBCvEoMrIpKF0XOgV1GEz7ILzN3nkbVP84Kg%2Blg%2BZHHSvnI0xWSM%3D|20181113|3|G2|02|13|0|0||||无|||有||12|15|||||10401030|1413|0",
+      "1eC1Atn%2FbJIxh0A9pjRczj%2FEwS1pCECnDR4FGKVoJxqcw20hfSxZDn23QN8BHOv%2BA5wnmsTL3NmQ%0AMrtkZqLOojVxxH8Fq6SdjXPqlnEAWR76%2BCbq1U%2Fp85ysoS97E9FHs0sb%2BGVa%2FlMULBXHnsA6aopg%0AAsMg2RxxxcomSBPbFQMJ5dVlJGmb%2FhHMbNGzdCTpaTUqU4KQMgUNfK0eNe%2FhPtt31UwXSXjNl8pW%0AWoTsFQs8RVRI%2B4zAPgWgul6ZCfzDYvS0xDsFpSA%3D|预订|25000K16221C|K1619|TJP|BJQ|NCG|BJQ|17:20|06:22|13:02|Y|Ldw%2BnUZl57KZfUK%2BiSPgZ7gpuR67iRZju%2F1R9ToRVyvhPPyG4GefxUSELGg%3D|20181112|3|PB|16|22|0|0||||无|||有||2|20|||||10401030|1413|0",
+      "AFFhna%2B38A3TZm29g2Mdtx3GBMfnrOERZblAyFvgaAFO8C5fnONqkHnowTd76%2BtvipIUeS6FxA77%0AwWiWiJqT%2FFSzq3veXJnNO%2Fq5cY7vdwHJ7TyrGJLYUsPwcQehIDLvbAaLzok1ZZBriD8Gi4IBRxkV%0AIB391k%2BdssyIx1C%2Bo9Oscv6PxW6b%2BseIElOHr3flU32x4eVYDF9%2BN6q9TqvCRGrg2kCOlaHmAFZy%0AU834mJ0PI%2BV8a%2Fv%2Brxt6spyEvAyW|预订|5l00000G9910|G99|AOH|XJA|NXG|IOQ|17:35|22:06|04:31|Y|uZbO5O1uWeNv2ckbunKRlk0S2bLmVj2hjd4T45hl5GXkTxhU|20181113|3|X1|05|09|1|0|||||||||||无|有|2||O090M0|O9M|0",
+      "qas%2Bll3bf6H6X3PIuUJX21keUZ%2BPoV%2F%2FzHX%2BB7v%2FQ2PfUogx4FTfmM9TyneKzCmJG74Q3pVzNfaa%0ACI2twcfaJ5LU0gWSY8b91r45JJDG9l47935kPYe7wok3IsfYAidsOkse0gaBovhNw0vbTFpFZ%2BiA%0Azrce8iy1mAdMdo7q2Tm%2Bii6YjZLuBITMqhVcbEUckcwFdd2bXcbzG8NOXTp%2F18fuyq9V0zE4SzDl%0AC6vXe%2Bq7vgBcZea3V%2BI2%2Blyb0YfIo4U64Q%3D%3D|预订|120000Z18807|Z185|SBT|SZQ|NCG|SZQ|17:36|04:28|10:52|Y|iDBwjwAS0hNoFnR8Sln7X%2BW85eBalqOnqRolkER8TCtGQ4gaINFqI5wP2cw%3D|20181112|3|T3|24|30|0|0||||无|||有||无|无|||||10401030|1413|0",
+      "q8lisObg87jpx9bLyqEFPfuO%2B69Vs2WIRFHKrAMkiqlUe0%2ByOsBHcrnvOuUTjBZURVoLXe2NKxkz%0Aibn%2FT6EsyjIFXDuBrSplDOnfkUfBn1zoKsN0sdES414d2SaSbxwv9tcZrfNbNo7tCf6Tzau4qyMf%0A3kjjTOrad8dh20NGcZY55dQ1PcNNWHbzwuwEii7OKTRQ8Ez2kEOfkVtgjpAJX%2FYzF%2F0mENhmJw0u%0AcaE4vY6GbS71EdouZCSMACbRc9Q6gxRMhlMe6zU%3D|预订|330000Z1840B|Z181|LHC|BJQ|NCG|BJQ|17:42|05:00|11:18|Y|UYc%2FiYJyXc2cg9SaaPFtctrOwc5FG8seto02n6f%2FLdeT%2BIkP8H%2F6jwycz1c%3D|20181112|3|C1|17|24|0|0||||无|||有||无|无|||||10401030|1413|0",
+      "|预订|850000K13203|K133|LZJ|OSQ|NCG|OSQ|20:40|09:15|12:35|Y|n4ZQt0KoCi0khVN2PdKW1Doc0w4Htqd8mKRzz%2F52EVMITDCbE7GMMlRlQYU%3D|20181112|3                   |J1           |30             |36           |0              |0                    ||||无  |||有  ||无  |无  |||||10401030|1413      |0",
+      "|xx |车次完整号    | 车次|始发站|终点站|出发点|到达点|出发时间|到达时间|共计时间|能否在web上购买|yp_info                                 |火车发车日期|周三|location_code|from_station_no|to_station_no|is_support_card|controlled_train_flat||||软卧|||无座 ||硬卧|硬座|||||yp_ex   |seat_types|exchange_train_flag"
+    ]
+  },
+          key_check_isChange ； '3B0276CDD3127AFB8F4CA9BCF0EBF5C3B7AA3EA2C19BF077B8D05BF1'
+  "httpstatus": 200,
+  "messages": "",
+  "status": true
+}
