@@ -1,24 +1,24 @@
 
-1. 登录
----- 每次操作前，先使用check登录api检查登录状态
 
+# 爬虫主要流程
 
+1. 登录模块
+    
+    1. 获取二维码 `https://kyfw.12306.cn/passport/web/create-qr64`
+    2. 循环发送检测二维码api, 检测是否登录成功 `https://kyfw.12306.cn/passport/web/checkqr`
+    3. 登录成功，退出检测循环 
+    
 2. 查询车次
-
-    https://kyfw.12306.cn/otn/leftTicket/init?
-    linktypeid=dc&fs=%E5%8C%97%E4%BA%AC,BJP&ts=%E6%B7%B1%E5%9C%B3,SZQ&date=2018-11-13&flag=N,Y,Y
-    '''
-        checkG1234('MESNLclNVq6gm3F3NkRoi9TtU3%2BVOor6gnRtazrJbX6GUSRmXtNo%2BGVO3r3QBHNbX5Shy0g1GEec%0AyhIPKEStdgBzM%2BZ7%2BkFSRsICKR8SCaj0dznGD6D9x4eUPIhtYRc3VdpaqxBx0%2BcIYiJva2V0BGoO%0AsEnodAGxcvvLysx2xGIxQAl4o6kGqp0M59lMSPncECWp%2BCb9gp7hw5uE3%2FVfwAdsNVsrKJjCI0TF%0A1SWtjoGu7OYIEiHiQKlofVnwxzds%2FXQNqQ%3D%3D',、
-        '16:13','240000K1051P','NCG','SZQ')
-    '''
-
-    #  获取所有站点信息，https://kyfw.12306.cn/otn/resources/js/framework/station_name.js?station_version=1.9074
-    后面的version会变化
+    
+    1. 参数获取车次信息 `https://kyfw.12306.cn/otn/leftTicket/init`
+    2. 获取所有站台信息 `https://kyfw.12306.cn/otn/resources/js/framework/station_name.js`
 
 3. 初次提交订单(车票未锁定)
 
-    https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest
-    post:
+    1. 初始信息提交  `https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest`
+    2. 获取token，check `https://kyfw.12306.cn/otn/confirmPassenger/initDc`
+    
+```
         secretStr: RSa3yt9+mvFkGPWOrOQuDjb/ejfUTUmXEwv23lBJEn98/lspxjwQ8Gv8oMQIDc4jsVW+ZpdVuKal
         JUK9nMOacYjCPKGlLnFDzpwXU8QCPArHPKPsuSBeaJq54XPD3lRU/xVAnn3+jzT1PpjBdSOalRAW
         DUdPyYdb983bLGi2+rzB/7uOLtLyicoFzmNYgHWed5NvkVkrTjwnbs7EIn1PdBP/kE6HFrlbc93H
@@ -39,13 +39,15 @@
          'validateMessages': {}}
 
 3.1 获取 token https://kyfw.12306.cn/otn/confirmPassenger/initDc
-
     post: _json_att:""
+    返回值: html网页
+```
 
+4. 详细信息提交
 
-4. 将车次信息 与  乘客信息提交
-
-    https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo
+    1. 确认乘客信息 `https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo`
+    
+```
     post:
         cancel_flag: 2
         bed_level_order_num: 000000000000000000000000000000
@@ -65,28 +67,27 @@
         REPEAT_SUBMIT_TOKEN: f611ff917f6ed7e6a214af4fdc285441
 
     返回值: submitStatus 为 True， 为确认成功
+        # 绿皮车
+
         data: {checkSeatNum: true, errMsg: "您选择了1位乘车人，但本次列车硬座仅剩0张。", submitStatus: false}
         httpstatus: 200
         messages: []
         status: true
         validateMessages: {}
         validateMessagesShowId: "_validatorMessage"
+        # 高铁
 
-        # 绿皮车
         data: {ifShowPassCode: "N", canChooseBeds: "N", canChooseSeats: "N", choose_Seats: "MOP9",…}
         httpstatus: 200
         messages: []
         status: true
         validateMessages: {}
         validateMessagesShowId: "_validatorMessage"
+```
 
-        # 高铁
+    2. 查询预定车次的车票信息 `https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount`
 
-
-5. 核对乘客信息
-
-    https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount
-
+```
     post:
         train_date: Wed Nov 14 2018 00:00:00 GMT+0800 (中国标准时间)  发车日期，只需要改日期 wed nov 14 即可
         train_no: 5f00000K94B1   在query中可以查询
@@ -107,11 +108,12 @@
         status: true
         validateMessages: {}
         validateMessagesShowId: "_validatorMessage"
+```
 
-6. 订单确认：
 
-    https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue
+6. 提交订单 `https://kyfw.12306.cn/otn/confirmPassenger/confirmSingleForQueue`
 
+```
     post:
         passengerTicketStr: 1,0,1,饶佳俊,1,362531199611254832,13694846652,N
         oldPassengerStr: 饶佳俊,1,362531199611254832,1_
@@ -135,43 +137,5 @@
         status: true
         validateMessages: {}
         validateMessagesShowId: "_validatorMessage"
-
-7. 订单查询 https://kyfw.12306.cn/otn/confirmPassenger/queryOrderWaitTime?random=1542089822220&tourFlag=dc&_json_att=&REPEAT_SUBMIT_TOKEN=2a372bbefb27888fe0d7513592a7a810
-
-8. 订单提交：https://kyfw.12306.cn/otn/confirmPassenger/resultOrderForDcQueue
-
-    post：
-        orderSequence_no: E638325920
-        _json_att:
-        REPEAT_SUBMIT_TOKEN: 2a372bbefb27888fe0d7513592a7a810
-    返回值:
-        未知，待确认
-
-    check_data = {
-        'cancel_flag': '2',
-        'bed_level_order_num': '000000000000000000000000000000',
-        # 'passengerTicketStr': 'O, 0, 1, 饶佳俊, 1, 362531199611254832, 13694846652, N',
-        'passengerTicketStr': '%s,0,1,%s,1,%s,%s,N' % (seat_level, name, id_card, phone),
-        'oldPassengerStr': '%s,1,%s,1_' % (name, id_card),
-        'tour_flag': 'dc',
-        'randCode': '',
-        'whatsSelect': '1',
-        '_json_att': '',
-        'REPEAT_SUBMIT_TOKEN': token
-    }
-    times = trans(_time)
-    get_data = {
-        # 'train_date': 'Tue Nov 20 2018 00:00: 00 GMT + 0800(中国标准时间)',
-        'train_date': '%s 00:00: 00 GMT + 0800(中国标准时间)' % times,
-        'train_no': res_dict['train_no'],
-        'stationTrainCode': res_dict['train_name'],
-        'seatType': seat_level,
-        'fromStationTelecode': res_dict['_from'],
-        'toStationTelecode': res_dict['_to'],
-        'leftTicket': res_dict['left_ticket'],
-        'purpose_codes': '00',
-        'train_location': res_dict['train_location'],
-        '_json_att': '',
-        'REPEAT_SUBMIT_TOKEN': token,
-    }
+```
 
