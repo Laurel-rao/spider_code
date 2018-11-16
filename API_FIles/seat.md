@@ -1,5 +1,5 @@
-
-
+# js文件数据
+```
 cx.secretStr = cr[0];
 cx.buttonTextInfo = cr[1];
 cv.train_no = cr[2];
@@ -40,6 +40,7 @@ cv.exchange_train_flag = cr[36];
 cv.from_station_name = cw[cr[6]];
 cv.to_station_name = cw[cr[7]];
 cx.queryLeftNewDTO = cv;
+```
 
 1. 火车主要分为两种， 动车/高铁 ，火车
     

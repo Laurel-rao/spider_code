@@ -16,6 +16,8 @@
 3. 初次提交订单(车票未锁定)
 
     1. 初始信息提交  `https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest`
+        - 该步骤是关键, 失败几率较高
+        
     2. 获取token，check `https://kyfw.12306.cn/otn/confirmPassenger/initDc`
     
 ```

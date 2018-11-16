@@ -48,8 +48,11 @@ def get_cookie():
 
 
 def get_info():
-    with open('./conf/info.json', 'r') as ff:
-        info = json.load(ff)
+    try:
+        with open('./conf/info.json', 'r') as ff:
+            info = json.load(ff)
+    except:
+        return None
     return info
 
 

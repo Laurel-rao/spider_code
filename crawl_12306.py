@@ -297,9 +297,10 @@ def confirm_order(req, token, res_dict):
 
 
 def main():
-    #  1. 获取用户信息
-    # get_user_info()
 
+    if not get_info():
+        print("请先运行get_user_info")
+        return
     #  2. 登录
     cookie = get_cookie()
     req = check_users(cookie=cookie)
@@ -333,4 +334,7 @@ def main():
 
 
 if __name__ == '__main__':
+    #  1. 获取用户信息
+    # get_user_info()
+    #  2. 买票
     main()
