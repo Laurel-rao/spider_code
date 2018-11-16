@@ -2,7 +2,6 @@
 
 cx.secretStr = cr[0];
 cx.buttonTextInfo = cr[1];
-var cv = [];
 cv.train_no = cr[2];
 cv.station_train_code = cr[3];
 cv.start_station_telecode = cr[4];
@@ -41,3 +40,45 @@ cv.exchange_train_flag = cr[36];
 cv.from_station_name = cw[cr[6]];
 cv.to_station_name = cw[cr[7]];
 cx.queryLeftNewDTO = cv;
+
+1. 火车主要分为两种， 动车/高铁 ，火车
+    
+    1. 动车类
+        - D开头
+        - G开头
+        
+    2. 火车类
+        - K开头  快速旅客列车
+        - T开头  特快
+        - Z开头  直达
+        - L开头  临时旅客列车
+        - Y开头  旅游列车  
+
+## 座位类型
+
+1. 火车类的座位类型
+    - 软卧
+    - 硬卧
+    - 硬座
+    - 无座
+        
+座位类型|座位编号|座位说明
+--|--|--
+软卧|4|
+硬卧|3|    
+硬座|1|
+无座|1|无座时，票价与硬座一致，所以为1     
+        
+    
+2. 动车类的座位类型, 支持选座
+    
+座位类型|座位编号|座位说明|选座编号choose_seatss
+--|--|--
+一等座|M||1 ABCDF
+二等座|O||1 ACDF     
+商务座|9|高铁有，动车没有|1 A C F  
+高级软卧|A|部分车次有|不可选         
+动卧|F|部分车次有|不可选            
+    
+
+    

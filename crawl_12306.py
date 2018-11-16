@@ -29,10 +29,12 @@ def check_users(req=None, cookie={}):
         req = requests.session()
     rep = req.post(url, headers=headers, data={"_json_att": ""}, cookies=cookie)
     if rep.status_code == 200:
-        if rep.json().get("data").get("flag"):
-            return req
+        try:
+            if rep.json().get("data").get("flag"):
+                return req
+        except:
+            print(rep.text)
     return False
-
 
 
 def check_login():
@@ -103,11 +105,11 @@ def login():
         return False
 
 
-def get_ticket(_train, _time, start, end):
+def get_ticket():
+    info = get_info()
     url = "https://kyfw.12306.cn/otn/leftTicket/query"
-
-    params = {'leftTicketDTO.train_date': _time, 'leftTicketDTO.from_station': "%s" % (start['code']), \
-              "leftTicketDTO.to_station": "%s" % (end['code']), "purpose_codes": "ADULT"}
+    params = {'leftTicketDTO.train_date': info['_time'], 'leftTicketDTO.from_station': "%s" % (info['start']['code']), \
+              "leftTicketDTO.to_station": "%s" % (info['end']['code']), "purpose_codes": "ADULT"}
     rep = requests.get(url, params=params)
     cookie = rep.cookies.get_dict()
     write_cookie(cookie)
@@ -115,7 +117,7 @@ def get_ticket(_train, _time, start, end):
         print('ticket query 网络异常')
     result = rep.json().get("data").get("result")
     for i in result:
-        if re.search(_train, i.lower()):
+        if re.search(info['_train_times'], i.upper()):
             return i
     else:
         return "查询错误，无该车次"
@@ -125,8 +127,11 @@ def is_login():
     start = time.perf_counter()
     n = 0
     cookie = get_cookie()
+    if not check_users():
+        login()
+        cookie = get_cookie()
     while check_users(cookie=cookie):
-        time.sleep(0.5)
+        time.sleep(2)
         m = n % 6
         print("\r正在检查是否登录%s" % (m * "."), end='')
         n += 1
@@ -135,18 +140,21 @@ def is_login():
     print("\ncookie 存活时间为:%s" % (end - start))
 
 
-def first_submit(req, secret, start_time, end_time, start_city, end_city):
+def first_submit(req, res_dict):
     url = "https://kyfw.12306.cn/otn/leftTicket/submitOrderRequest"
+    info = get_info()
     data = {
-        'secretStr': secret,
-        'train_date': start_time,  # 单程出发日
-        'back_train_date': end_time,  # 返程出发日
+        'secretStr': res_dict['secret'],
+        'train_date': info['_time'],  # 单程出发日
+        'back_train_date': '2018-11-29',  # 返程出发日
         'tour_flag': 'dc',  # 单程 、 往返(wf)
         'purpose_codes': 'ADULT',  # 成人，学生(STUDENT)
-        'query_from_station_name': start_city,
-        'query_to_station_name': end_city,
+        'query_from_station_name': info['start']['name'],
+        'query_to_station_name': info['end']['name'],
         'undefined': ''
     }
+    for i in data:
+        print("%s : %s"%(i, data[i]))
     rep = req.post(url, data=data, headers=headers)
     if rep.status_code != 200:
         print('3. first_submit 网络异常')
@@ -162,6 +170,7 @@ def first_submit(req, secret, start_time, end_time, start_city, end_city):
     else:
         print(rep.text[:1000])
         print('3. first_submit 请求失败')
+        return
     req, token, check = get_repeat_token(req)
     if not token:
         return
@@ -179,6 +188,7 @@ def first_submit(req, secret, start_time, end_time, start_city, end_city):
 
 
 def book_order(check_data, get_data, req, check):
+    info = get_info()
     confirm_data = {
         "passengerTicketStr": check_data['passengerTicketStr'],
         'oldPassengerStr': check_data['oldPassengerStr'],
@@ -187,7 +197,7 @@ def book_order(check_data, get_data, req, check):
         'key_check_isChange': check,
         'leftTicketStr': get_data['leftTicket'],
         'train_location': get_data['train_location'],
-        'choose_seats': '',
+        'choose_seatss': info['choose_seats'],
         'seatDetailType': '000',
         'whatsSelect': '1',
         'roomType': '00',
@@ -213,38 +223,38 @@ def get_repeat_token(req):
     result = re.search("globalRepeatSubmitToken[\s\S]*?'(?P<token>[\s\S]+?)';", rep.text)
     res1 = re.search("key_check_isChange[\s\S]*?:'(?P<token>[\s\S]+?)','leftDetails'", rep.text)
     if not result:
-        print("正则表达式匹配错误")
+        print("正则表达式1匹配错误")
         return
     if not res1:
-        print("正则表达式匹配错误")
+        print("正则表达式2匹配错误")
         return
 
     return req, result.group("token"), res1.group("token")
 
 
-def confirm_order(req, token, res_dict, user_info, _time):
+def confirm_order(req, token, res_dict):
     check_url = 'https://kyfw.12306.cn/otn/confirmPassenger/checkOrderInfo'
     get_url = 'https://kyfw.12306.cn/otn/confirmPassenger/getQueueCount'
-    seat_level, name, id_card, phone = user_info
+    info = get_info()
     check_data = {
         'cancel_flag': '2',
         'bed_level_order_num': '000000000000000000000000000000',
         # 'passengerTicketStr': 'O, 0, 1, 饶佳俊, 1, 362531199611254832, 13694846652, N',
-        'passengerTicketStr': '%s,0,1,%s,1,%s,%s,N' % (seat_level, name, id_card, phone),
-        'oldPassengerStr': '%s,1,%s,1_' % (name, id_card),
+        'passengerTicketStr': '%s,0,1,%s,1,%s,%s,N' % (info['seat_level'], info['name'], info['idcard'], info['phone']),
+        'oldPassengerStr': '%s,1,%s,1_' % (info['name'], info['idcard']),
         'tour_flag': 'dc',
         'randCode': '',
         'whatsSelect': '1',
         '_json_att': '',
         'REPEAT_SUBMIT_TOKEN': token
     }
-    times = trans(_time)
+    times = trans(info['_time'])
     get_data = {
         # 'train_date': 'Tue Nov 20 2018 00:00: 00 GMT + 0800(中国标准时间)',
         'train_date': '%s 00:00: 00 GMT + 0800(中国标准时间)' % times,
         'train_no': res_dict['train_no'],
         'stationTrainCode': res_dict['train_name'],
-        'seatType': seat_level,
+        'seatType': info['seat_level'],
         'fromStationTelecode': res_dict['_from'],
         'toStationTelecode': res_dict['_to'],
         'leftTicket': res_dict['left_ticket'],
@@ -283,24 +293,12 @@ def confirm_order(req, token, res_dict, user_info, _time):
         print(rep2.text[:1000])
         print("getQueueCount 请求失败")
 
-
     return check_data, get_data, req
 
 
 def main():
     #  1. 获取用户信息
-    # _time, _train, _start, _end = get_train_times()
-    # user_info = get_user_info()
-
-    _time = '2018-11-16'
-    _train = "k91"
-    _start = {"name": "南昌", "code": "NCG"}
-    _end = {"name": "深圳", "code": "SZQ"}
-    seat_level = '1'
-    name = '饶佳俊'
-    id_card = '362531199611254832'
-    phone = '13694846652'
-    user_info = [seat_level, name, id_card, phone]
+    # get_user_info()
 
     #  2. 登录
     cookie = get_cookie()
@@ -310,18 +308,25 @@ def main():
 
     # 查询车次，订单中有 serectStr， globalRepeatSubmitToken
 
-    text = get_ticket(_train, _time, _start, _end)
+    text = get_ticket()
     res_dict = parse_html(text)
     if not check_users():
         print("用户登录已失效")
         req = login()
-    secret, start_time, end_time, start_city, end_city = parse_params(res_dict, _time, _start, _end)
+    # secret, start_time, end_time, start_city, end_city = parse_params(res_dict, _time, _start, _end)
     # JSESSIONID  和  tk 正确, secretStr 正确， secret 需要解码，使用parse.quote 和 parse.unquote
     # 3. 提交初始订单
-    req, token, check = first_submit(req, secret, start_time, end_time, start_city, end_city)
+    while True:
+        # 该请求成功后，其他请求失败概率较小
+        submit_data = first_submit(req, res_dict)
+        if submit_data:
+            req, token, check = submit_data
+            break
+        else:
+            print('first_submit 请求失败，正在重试')
+            continue
     cookie = req.cookies.get_dict()
-    write_cookie(cookie)
-    check_data, get_data, req = confirm_order(req, token, res_dict, user_info, _time)
+    check_data, get_data, req = confirm_order(req, token, res_dict)
     # 乘车人选择，确认订单，选择座位(高铁)
     # 下订单，并返回订单号
     book_order(check_data, get_data, req, check)

@@ -47,6 +47,12 @@ def get_cookie():
     return _cookie
 
 
+def get_info():
+    with open('./conf/info.json', 'r') as ff:
+        info = json.load(ff)
+    return info
+
+
 def open_image(req, url):
     '''
     get qr image
@@ -84,7 +90,7 @@ def parse_params(res_dict, _time, _start, _end):
     '''
     secret = res_dict['secret']
     start_time = _time
-    end_time = '2018-11-29'     # 到达时间未处理
+    end_time = ''     # 返程时间未处理
     start_city = _start['name']
     end_city = _end['name']
     return secret, start_time, end_time, start_city, end_city

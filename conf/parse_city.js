@@ -3823,7 +3823,7 @@ var isInitLoad = true;
                       bJ(false)
                     }
                     canChooseSeats = cJ.data.canChooseSeats;
-                    choose_Seats = cJ.data.choose_Seats;
+                    choose_seatss = cJ.data.choose_seatss;
                     canChooseBeds = cJ.data.canChooseBeds;
                     isCanChooseMid = cJ.data.isCanChooseMid;
                     if (cJ.data.smokeStr != "" && cJ.data.smokeStr.length > 0) {
@@ -4605,7 +4605,7 @@ var isInitLoad = true;
         purpose_codes: cl(),
         key_check_isChange: md5Str,
         train_location: location_code,
-        choose_seats: bG(),
+        choose_seatss: bG(),
         seatDetailType: aN()
       },
       dataType: "json",
@@ -4644,7 +4644,7 @@ var isInitLoad = true;
         key_check_isChange: md5Str,
         leftTicketStr: leftTicketStr,
         train_location: location_code,
-        choose_seats: bG(),
+        choose_seatss: bG(),
         seatDetailType: aN()
       },
       dataType: "json",
@@ -7553,9 +7553,9 @@ var isInitLoad = true;
         }
       }
       if (canChooseSeats && "Y" == canChooseSeats && "Y" == cv) {
-        if (choose_Seats) {
+        if (choose_seatss) {
           var cs = "*如果本次列车剩余席位无法满足您的选座需求，系统将自动为您分配席位。";
-          if ("M" == cr && choose_Seats.indexOf("M") > -1) {
+          if ("M" == cr && choose_seatss.indexOf("M") > -1) {
             $("#id-seat-sel").css("display", "block");
             $("#yideng1").css("display", "block");
             if (tickets_info.length > 1) {
@@ -7563,7 +7563,7 @@ var isInitLoad = true;
             }
             $("#notice_1_id").html(cs)
           }
-          if ("O" == cr && choose_Seats.indexOf("O") > -1) {
+          if ("O" == cr && choose_seatss.indexOf("O") > -1) {
             $("#id-seat-sel").css("display", "block");
             $("#erdeng1").css("display", "block");
             if (tickets_info.length > 1) {
@@ -7571,7 +7571,7 @@ var isInitLoad = true;
             }
             $("#notice_1_id").html(cs)
           }
-          if ("P" == cr && choose_Seats.indexOf("P") > -1) {
+          if ("P" == cr && choose_seatss.indexOf("P") > -1) {
             $("#id-seat-sel").css("display", "block");
             $("#tedeng1").css("display", "block");
             if (tickets_info.length > 1) {
@@ -7579,7 +7579,7 @@ var isInitLoad = true;
             }
             $("#notice_1_id").html(cs)
           }
-          if ("9" == cr && choose_Seats.indexOf("9") > -1) {
+          if ("9" == cr && choose_seatss.indexOf("9") > -1) {
             $("#id-seat-sel").css("display", "block");
             $("#tedeng1").css("display", "block");
             if (tickets_info.length > 1) {

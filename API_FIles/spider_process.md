@@ -77,7 +77,7 @@
         validateMessagesShowId: "_validatorMessage"
         # 高铁
 
-        data: {ifShowPassCode: "N", canChooseBeds: "N", canChooseSeats: "N", choose_Seats: "MOP9",…}
+        data: {ifShowPassCode: "N", canChooseBeds: "N", canChooseSeats: "N", choose_seatss: "MOP9",…}
         httpstatus: 200
         messages: []
         status: true
@@ -122,7 +122,7 @@
         key_check_isChange: DDAA044DAD70A5113F323B1DB55F5B5703EFBCA3DE7B69190B78459B
         leftTicketStr: XncsACvFq2raHyJQMkDHyEuAUM9zBu7NC228B%2BH1gLYbz3NJHkQmwTclqu8%3D
         train_location: H6
-        choose_seats:
+        choose_seatss:
         seatDetailType: 000
         whatsSelect: 1
         roomType: 00
