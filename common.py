@@ -6,6 +6,7 @@ Remark: 处理数据，文件
 '''
 import base64
 import json
+import pickle
 import time
 from urllib import parse
 
@@ -56,6 +57,20 @@ def get_info():
     return info
 
 
+def save_obj(req):
+    with open("object.pkl", 'wb') as ff:
+        pickle.dump(req, ff)
+
+
+def get_obj():
+    try:
+        with open("object.pkl", 'rb') as ff:
+            obj = pickle.load(ff)
+    except:
+        return False
+    return obj
+
+
 def open_image(req, url):
     '''
     get qr image
@@ -93,7 +108,7 @@ def parse_params(res_dict, _time, _start, _end):
     '''
     secret = res_dict['secret']
     start_time = _time
-    end_time = ''     # 返程时间未处理
+    end_time = ''  # 返程时间未处理
     start_city = _start['name']
     end_city = _end['name']
     return secret, start_time, end_time, start_city, end_city
@@ -105,7 +120,6 @@ def parse_html(text):
     :param text: 处理查询到的车次数据
     :return:
     '''
-    print(text)
     res = text.split("|")
     secret = parse.unquote(res[0])
     train_no = res[2]  # 车次编号

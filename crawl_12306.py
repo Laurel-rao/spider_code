@@ -4,6 +4,7 @@ Author: Laurel-rao
 create time:2018/11/12 下午6:54
 Remark: 
 '''
+import pickle
 
 import requests
 from common import *
@@ -32,6 +33,7 @@ def check_users(req=None, cookie={}):
         try:
             if rep.json().get("data").get("flag"):
                 return req
+            print(rep.json().get("data").get("flag"))
         except:
             print(rep.text)
     return False
@@ -40,6 +42,8 @@ def check_users(req=None, cookie={}):
 def check_login():
     if not check_users():
         req = login()
+    else:
+        req = requests
     return req
 
 
@@ -97,8 +101,9 @@ def login():
     write_cookie(cookie)
 
     # 3. 验证是否登录
-    if check_users():
+    if check_users(req):
         print("登陆成功")
+        save_obj(req)
         return req
     else:
         print("登陆失败")
@@ -126,15 +131,15 @@ def get_ticket():
 def is_login():
     start = time.perf_counter()
     n = 0
-    cookie = get_cookie()
-    if not check_users():
-        login()
-        cookie = get_cookie()
-    while check_users(cookie=cookie):
-        time.sleep(2)
+    req = check_login()
+    while True:
+        time.sleep(1)
         m = n % 6
         print("\r正在检查是否登录%s" % (m * "."), end='')
         n += 1
+        if not check_users(req):
+            break
+
 
     end = time.perf_counter()
     print("\ncookie 存活时间为:%s" % (end - start))
@@ -275,9 +280,9 @@ def confirm_order(req, token, res_dict):
         data1 = ''
     if data1:
         print("checkOrderInfo 请求成功")
-        print(rep1.text)
 
     else:
+        print(rep1.text)
         print("checkOrderInfo 请求失败")
 
     rep2 = req.post(get_url, data=get_data, headers=headers)
@@ -287,7 +292,7 @@ def confirm_order(req, token, res_dict):
     except:
         data2 = ''
     if data2:
-        print(rep2.json().get('data'))
+        # print(rep2.json().get('data'))
         print("getQueueCount 请求成功")
     else:
         print(rep2.text[:1000])
@@ -299,8 +304,7 @@ def confirm_order(req, token, res_dict):
 def main():
 
     if not get_info():
-        print("请先运行get_user_info")
-        return
+        get_user_info()
     #  2. 登录
     cookie = get_cookie()
     req = check_users(cookie=cookie)
@@ -334,7 +338,12 @@ def main():
 
 
 if __name__ == '__main__':
-    #  1. 获取用户信息
-    # get_user_info()
-    #  2. 买票
-    main()
+    login()
+    start = time.time()
+    cookie = get_cookie()
+    while True:
+        req = get_obj()
+        if req:
+            if not check_users(cookie=cookie):
+                print(time.time() - start)
+                break
