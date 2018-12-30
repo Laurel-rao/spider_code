@@ -5,6 +5,8 @@ create time:2018/11/12 下午6:54
 Remark: 
 '''
 import pickle
+import json
+import time
 
 import requests
 from common import *
@@ -103,7 +105,10 @@ def login():
     # 3. 验证是否登录
     if check_users(req):
         print("登陆成功")
-        save_obj(req)
+        try:
+            save_obj(req)
+        except:
+            print('save_obj error')
         return req
     else:
         print("登陆失败")
@@ -112,7 +117,7 @@ def login():
 
 def get_ticket():
     info = get_info()
-    url = "https://kyfw.12306.cn/otn/leftTicket/query"
+    url = "https://kyfw.12306.cn/otn/leftTicket/queryZ"
     params = {'leftTicketDTO.train_date': info['_time'], 'leftTicketDTO.from_station': "%s" % (info['start']['code']), \
               "leftTicketDTO.to_station": "%s" % (info['end']['code']), "purpose_codes": "ADULT"}
     rep = requests.get(url, params=params)
@@ -120,6 +125,7 @@ def get_ticket():
     write_cookie(cookie)
     if rep.status_code != 200:
         print('ticket query 网络异常')
+
     result = rep.json().get("data").get("result")
     for i in result:
         if re.search(info['_train_times'], i.upper()):
@@ -338,12 +344,6 @@ def main():
 
 
 if __name__ == '__main__':
-    login()
-    start = time.time()
-    cookie = get_cookie()
-    while True:
-        req = get_obj()
-        if req:
-            if not check_users(cookie=cookie):
-                print(time.time() - start)
-                break
+    main()
+
+

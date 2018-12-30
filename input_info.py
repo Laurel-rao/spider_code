@@ -56,7 +56,7 @@ def get_train_times():
         else:
             print("日期输入错误")
 
-    with open("./conf/city_code.json", 'r') as load_f:
+    with open("./conf/city_code.json", 'r', encoding='utf-8') as load_f:
         load_dict = json.load(load_f)
 
     def get_code(word):
